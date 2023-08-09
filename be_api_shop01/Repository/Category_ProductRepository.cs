@@ -35,7 +35,7 @@ namespace be_api_shop01.Repository
 
         public async Task<List<Category_Product>> GetAllCategory_Product()
         {
-            return await _context.Category_Product.ToListAsync();
+            return await _context.Category_Product.OrderByDescending(ct => ct.dateAdded).ToListAsync();
         }
 
         public async Task<Category_Product> GetCategory_ProductById(long id)
