@@ -2,7 +2,6 @@
 {
     public class Category_ProductModel
     {
-        public long id { get; set; }
         public string name { get; set; } = "";
     }
 }

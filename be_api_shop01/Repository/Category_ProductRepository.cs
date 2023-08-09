@@ -9,39 +9,48 @@ namespace be_api_shop01.Repository
     public class Category_ProductRepository : ICategory_ProductRepository
     {
         public readonly ApplicationContext _context;
-        public readonly IMapper _mapper;
 
-        public Category_ProductRepository(ApplicationContext context, IMapper mapper)
+        public Category_ProductRepository(ApplicationContext context)
         {
             _context = context;
-            _mapper = mapper;
+
         }
 
-        public Task<long> AddCategory_Product(Category_ProductModel model)
+        public async Task<long> AddCategory_Product(Category_Product category)
         {
-            throw new NotImplementedException();
+            _context.Category_Product.Add(category);
+            await _context.SaveChangesAsync();
+            return category.id;
         }
 
-        public Task DeleteCategory_Product(long id)
+        public async Task DeleteCategory_Product(long id)
         {
-            throw new NotImplementedException();
+            var category_product = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
+            if(category_product != null)
+            {
+                _context.Category_Product.Remove(category_product);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public async Task<List<Category_ProductModel>> GetAllCategory_Product()
+        public async Task<List<Category_Product>> GetAllCategory_Product()
         {
-            var category_product = await _context.Category_Product.ToListAsync();
-            return _mapper.Map<List<Category_ProductModel>>(category_product);
+            return await _context.Category_Product.ToListAsync();
         }
 
-        public async Task<Category_ProductModel> GetCategory_ProductById(long id)
+        public async Task<Category_Product> GetCategory_ProductById(long id)
         {
-            var category_product = await _context.Category_Product.FindAsync(id);   
-            return _mapper.Map<Category_ProductModel>(category_product);
+            return await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
         }
 
-        public Task UpdateCatetgoryProduct(long id, Category_ProductModel model)
+        public async Task UpdateCategory_Product(long id, Category_Product category)
         {
-            throw new NotImplementedException();
+            var category_products = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
+            if(category_products != null)
+            {
+                category_products.name = category.name;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
