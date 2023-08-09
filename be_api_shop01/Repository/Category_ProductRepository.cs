@@ -32,7 +32,7 @@ namespace be_api_shop01.Repository
                 await _context.SaveChangesAsync();
             }
         }
-
+        
         public async Task<List<Category_Product>> GetAllCategory_Product()
         {
             return await _context.Category_Product.OrderByDescending(ct => ct.dateAdded).ToListAsync();
@@ -50,7 +50,7 @@ namespace be_api_shop01.Repository
             {
                 category_products.name = category.name;
                 await _context.SaveChangesAsync();
-            }
+            }   
         }
     }
 }

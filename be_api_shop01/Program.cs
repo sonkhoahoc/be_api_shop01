@@ -9,6 +9,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 var contexOptions = new DbContextOptionsBuilder<ApplicationContext>().UseSqlServer(connectionString).Options;
 builder.Services.AddDbContext<ApplicationContext>(x => x.UseSqlServer(connectionString));
 builder.Services.AddTransient<ICategory_ProductRepository, Category_ProductRepository>();
+builder.Services.AddTransient<ICategory_NewsRepository, Category_NewsRepository>(); 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddControllers();
