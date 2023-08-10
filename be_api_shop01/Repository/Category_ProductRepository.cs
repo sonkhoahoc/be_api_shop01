@@ -18,6 +18,9 @@ namespace be_api_shop01.Repository
 
         public async Task<long> AddCategory_Product(Category_Product category)
         {
+            category.dateAdded = DateTime.Now;
+            category.dateUpdated = DateTime.Now;
+
             _context.Category_Product.Add(category);
             await _context.SaveChangesAsync();
             return category.id;

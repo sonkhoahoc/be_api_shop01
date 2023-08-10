@@ -14,6 +14,9 @@ namespace be_api_shop01.Repository
         }
         public async Task<long> AddCategory_News(Category_News category)
         {
+            category.dateAdded = DateTime.Now;
+            category.dateUpdated = DateTime.Now;
+
             _context.Category_News.Add(category);
             await _context.SaveChangesAsync();
             return category.id;
@@ -31,7 +34,7 @@ namespace be_api_shop01.Repository
 
         public async Task<List<Category_News>> GetAllCategory_News()
         {
-            return await _context.Category_News.OrderByDescending(ct => ct.dateAdded).ToListAsync();
+            return await _context.Category_News.OrderByDescending(ct => ct.dateAdded).ThenByDescending(ct => ct).ToListAsync();
         }
 
         public async Task<Category_News> GetCategory_NewsById(long id)
