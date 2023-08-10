@@ -8,7 +8,7 @@ namespace be_api_shop01.Repository
 {
     public class Category_ProductRepository : ICategory_ProductRepository
     {
-        public readonly ApplicationContext _context;
+        private readonly ApplicationContext _context;
 
         public Category_ProductRepository(ApplicationContext context)
         {

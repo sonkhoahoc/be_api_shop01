@@ -9,7 +9,7 @@ namespace be_api_shop01.Controllers
     [ApiController]
     public class Category_NewsController : ControllerBase
     {
-        public readonly ICategory_NewsRepository _repository;
+        private readonly ICategory_NewsRepository _repository;
 
         public Category_NewsController(ICategory_NewsRepository repository)
         {

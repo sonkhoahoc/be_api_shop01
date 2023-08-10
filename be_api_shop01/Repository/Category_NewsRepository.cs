@@ -6,7 +6,7 @@ namespace be_api_shop01.Repository
 {
     public class Category_NewsRepository : ICategory_NewsRepository
     {
-        public readonly ApplicationContext _context;
+        private readonly ApplicationContext _context;
 
         public Category_NewsRepository(ApplicationContext context)
         {
