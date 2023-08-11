@@ -30,7 +30,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("/{productId}")]
+        [HttpGet("size/{productId}")]
         public async Task<IActionResult> GetListSizeByProId(long productId)
         {
             try
