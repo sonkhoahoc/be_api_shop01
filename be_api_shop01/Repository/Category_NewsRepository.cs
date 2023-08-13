@@ -12,6 +12,7 @@ namespace be_api_shop01.Repository
         {
             _context = context;
         }
+
         public async Task<long> AddCategory_News(Category_News category)
         {
             category.dateAdded = DateTime.Now;
@@ -22,19 +23,21 @@ namespace be_api_shop01.Repository
             return category.id;
         }
 
-        public async Task DeleteCategory_News(long id)
+        public async Task<bool> DeleteCategory_News(long id)
         {
             var category_news = await _context.Category_News.FirstOrDefaultAsync(ct => ct.id == id);
             if(category_news != null)
             {
                 _context.Category_News.Remove(category_news);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
         public async Task<List<Category_News>> GetAllCategory_News()
         {
-            return await _context.Category_News.OrderByDescending(ct => ct.dateAdded).ThenByDescending(ct => ct).ToListAsync();
+            return await _context.Category_News.OrderByDescending(ct => ct.dateAdded).ToListAsync();
         }
 
         public async Task<Category_News> GetCategory_NewsById(long id)
@@ -43,9 +46,9 @@ namespace be_api_shop01.Repository
         }
 
         public async Task UpdateCategory_News(long id, Category_News category)
-        {   
+        {
             var category_news = await _context.Category_News.FirstOrDefaultAsync(ct => ct.id == id);
-            if(category_news != null)
+            if (category_news != null)
             {
                 category_news.name = category.name;
                 await _context.SaveChangesAsync();

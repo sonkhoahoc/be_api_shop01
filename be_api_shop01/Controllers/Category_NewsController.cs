@@ -2,6 +2,7 @@
 using be_api_shop01.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using be_api_shop01.Models;
 
 namespace be_api_shop01.Controllers
 {
@@ -9,24 +10,35 @@ namespace be_api_shop01.Controllers
     [ApiController]
     public class Category_NewsController : ControllerBase
     {
-        private readonly ICategory_NewsRepository _repository;
+        private readonly ICategory_NewsRepository _reponsitory;
 
-        public Category_NewsController(ICategory_NewsRepository repository)
+        public Category_NewsController(ICategory_NewsRepository reponsitory)
         {
-            _repository = repository;
+            _reponsitory = reponsitory;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategory_News()
+        public async Task<IActionResult> GettAllCategory_News()
         {
             try
             {
-                var category_product = await _repository.GetAllCategory_News();
-                return Ok(category_product);
+                var category_news = await _reponsitory.GetAllCategory_News();
+                var reponse = new ResponseMessageModel<List<Category_News>>
+                {
+                    StatusCode = 200,
+                    Message = "Hiện thị danh sách loại tin tức thành công!!!",
+                    Data = category_news
+                };
+                return Ok(reponse);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -35,44 +47,84 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var category_product = await _repository.GetCategory_NewsById(id);
-                if(category_product == null)
+                var category_news = await _reponsitory.GetCategory_NewsById(id);
+                if(category_news == null)
                 {
-                    return NotFound();
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy loại tin tức!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
                 }
-                return Ok(category_product);
+
+                var responses = new ResponseMessageModel<Category_News>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị loại tin tức theo id thành công!!!",
+                    Data = category_news
+                };
+                return Ok(responses);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory_News(Category_News category)
+        public async Task<IActionResult> AddCategory_News([FromBody] Category_News category_news)
         {
             try
             {
-                var id = await _repository.AddCategory_News(category);
-                return CreatedAtAction(nameof(GetCategory_NewsById), new {id}, category);
+                var category = await _reponsitory.AddCategory_News(category_news);
+                var responses = new ResponseMessageModel<long>
+                {
+                    StatusCode = 201,
+                    Message = "Thêm loại tin tức thành công",
+                    Data = category
+                };
+                return CreatedAtAction(nameof(GetCategory_NewsById), new { id = category }, responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory_News(long id, Category_News category)
+        public async Task<IActionResult> UpdateCategory_News(long id, [FromBody] Category_News category_news)
         {
             try
             {
-                await _repository.UpdateCategory_News(id, category);
-                return Ok();
+                await _reponsitory.UpdateCategory_News(id, category_news);
+                var responses = new ResponseMessageModel<string>
+                {
+                    StatusCode = 200,
+                    Message = "Sửa loại tin tức thành công!!!",
+                    Data = null
+                };
+                return Ok(responses);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -81,12 +133,34 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                await _repository.DeleteCategory_News(id);
-                return Ok();
+                var id_delete = await _reponsitory.DeleteCategory_News(id);
+                if (!id_delete)
+                {
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy loại tin tức!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
+                }
+
+                var responses = new ResponseMessageModel<string>
+                {
+                    StatusCode = 200,
+                    Message = "Xoá thành công loại tin tức",
+                    Data = null
+                };
+                return Ok(responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
     }

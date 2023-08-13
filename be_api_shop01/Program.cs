@@ -11,6 +11,7 @@ builder.Services.AddDbContext<ApplicationContext>(x => x.UseSqlServer(connection
 builder.Services.AddTransient<ICategory_ProductRepository, Category_ProductRepository>();
 builder.Services.AddTransient<ICategory_NewsRepository, Category_NewsRepository>();
 builder.Services.AddTransient<ISizeRepository, SizeRepository>();
+builder.Services.AddTransient<ISliderRepository, SliderRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddControllers();

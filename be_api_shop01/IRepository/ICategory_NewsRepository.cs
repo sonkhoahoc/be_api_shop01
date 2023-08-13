@@ -8,6 +8,6 @@ namespace be_api_shop01.IRepository
         public Task<Category_News> GetCategory_NewsById(long id);
         public Task<long> AddCategory_News(Category_News category);
         public Task UpdateCategory_News(long id, Category_News category);
-        public Task DeleteCategory_News(long id);
+        public Task<bool> DeleteCategory_News(long id);
     }
 }
