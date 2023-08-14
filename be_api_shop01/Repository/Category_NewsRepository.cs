@@ -53,6 +53,6 @@ namespace be_api_shop01.Repository
                 category_news.name = category.name;
                 await _context.SaveChangesAsync();
             }
-        }
+        }   
     }
 }

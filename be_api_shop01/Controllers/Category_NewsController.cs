@@ -115,7 +115,7 @@ namespace be_api_shop01.Controllers
                         Message = "Sửa loại tin tức thành công!!!",
                         Data = null
                 };
-                return Ok(responses);
+                return Ok(responses);   
             }
             catch (Exception)
             {

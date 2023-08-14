@@ -23,15 +23,16 @@ namespace be_api_shop01.Repository
             return slider.id;
         }
 
-        public async Task DeleteSlider(long id)
+        public async Task<bool> DeleteSlider(long id)
         {
-            var sliders = await _context.Slider.FirstOrDefaultAsync(s => s.id == id);
-            if (sliders != null)
+            var slider = await _context.Slider.FirstOrDefaultAsync(s => s.id == id);
+            if (slider != null)
             {
-                _context.Slider.Remove(sliders);
+                _context.Slider.Remove(slider);
                 await _context.SaveChangesAsync();
+                return true;
             }
-
+            return false;
         }
 
         public async Task<List<Slider>> GetAllSlider()
@@ -47,10 +48,10 @@ namespace be_api_shop01.Repository
         public async Task UpdateSlider(long id, Slider slider)
         {
             var sliders = await _context.Slider.FirstOrDefaultAsync(s => s.id == id);
-            if(sliders != null)
+            if (sliders != null)
             {
-                slider.url = sliders.url;
-                slider.note = sliders.note;
+                sliders.url = slider.url;
+                sliders.note = slider.note;
                 await _context.SaveChangesAsync();
             }
         }

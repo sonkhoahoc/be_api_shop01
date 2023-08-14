@@ -1,5 +1,6 @@
 ﻿using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
+using be_api_shop01.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +23,22 @@ namespace be_api_shop01.Controllers
             try
             {
                 var slider = await _repository.GetAllSlider();
-                return Ok(slider);
+                var response = new ResponseMessageModel<List<Slider>>
+                {
+                    StatusCode = 200,
+                    Message = "Hiện thị danh sách slider thành công!!!",
+                    Data = slider
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -35,16 +47,34 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var slider = _repository.GetSliderById(id);
+                var slider = await _repository.GetSliderById(id);
                 if (slider == null)
                 {
-                    return NotFound();
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy slider!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
                 }
-                return Ok(slider);
+
+                var responses = new ResponseMessageModel<Slider>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị slider theo id thành công!!!",
+                    Data = slider
+                };
+                return Ok(responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -53,26 +83,48 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var id = await _repository.AddSlider(slider);
-                return CreatedAtAction(nameof(GetSliderById), new { id }, slider);
-            }
-            catch (Exception ex)
+                var sliders = await _repository.AddSlider(slider);
+                var response = new ResponseMessageModel<long>
+                {
+                    StatusCode = 201,
+                    Message = "Thêm slider thành công",
+                    Data = sliders
+                };
+                return CreatedAtAction(nameof(GetSliderById), new {id = slider}, response);
+            }   
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSlider(long id, Slider slider)
+        public async Task<IActionResult> UpdatetSlider(long id, [FromBody] Slider slider)
         {
             try
             {
                 await _repository.UpdateSlider(id, slider);
-                return Ok();
+                var response = new ResponseMessageModel<string>
+                {
+                    StatusCode = 200,
+                    Message = "Sửa loại slider thành công!!!",
+                    Data = null
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -81,12 +133,34 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                await _repository.DeleteSlider(id);
-                return Ok();
+                var is_delete = await _repository.DeleteSlider(id);
+                if (is_delete)
+                {
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy slider!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
+                }
+
+                var responses = new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 200,
+                    Message = "Xoá thành công slider",
+                    Data = null
+                };
+                return Ok(responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
     }

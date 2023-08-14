@@ -1,9 +1,7 @@
 ﻿using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
 using be_api_shop01.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using be_api_shop01.Models;
 
 namespace be_api_shop01.Controllers
 {
@@ -105,7 +103,7 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatetCategory_Product(long id, Category_Product category)
+        public async Task<IActionResult> UpdatetCategory_Product(long id,[FromBody] Category_Product category)
         {
             try
             {
