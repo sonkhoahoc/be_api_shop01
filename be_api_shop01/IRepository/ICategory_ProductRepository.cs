@@ -1,5 +1,4 @@
 ﻿using be_api_shop01.Entities;
-using be_api_shop01.Models;
 
 namespace be_api_shop01.IRepository
 {
@@ -9,6 +8,6 @@ namespace be_api_shop01.IRepository
         public Task<Category_Product> GetCategory_ProductById(long id);
         public Task<long> AddCategory_Product(Category_Product category);
         public Task UpdateCategory_Product(long id, Category_Product category);
-        public Task DeleteCategory_Product(long id);
+        public Task<bool> DeleteCategory_Product(long id);
     }
 }

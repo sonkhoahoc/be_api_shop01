@@ -1,7 +1,9 @@
 ﻿using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
+using be_api_shop01.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using be_api_shop01.Models;
 
 namespace be_api_shop01.Controllers
 {
@@ -22,11 +24,22 @@ namespace be_api_shop01.Controllers
             try
             {
                 var category_product = await _repository.GetAllCategory_Product();
-                return Ok(category_product);
+                var response = new ResponseMessageModel<List<Category_Product>>
+                {
+                    StatusCode = 200,
+                    Message = "Hiện thị danh sách loại sản phẩm thành công!!!",
+                    Data = category_product
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -35,44 +48,84 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var category_products = await _repository.GetCategory_ProductById(id);
-                if(category_products == null)
+                var category_product = await _repository.GetCategory_ProductById(id);
+                if (category_product == null)
                 {
-                    return NotFound();
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy loại sản phẩm!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
                 }
-                return Ok(category_products);
+
+                var responses = new ResponseMessageModel<Category_Product>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị loại sản phẩm theo id thành công!!!",
+                    Data = category_product
+                };
+                return Ok(responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory_Product(Category_Product category)
+        public async Task<IActionResult> AddCategory_Product([FromBody] Category_Product category)
         {
             try
             {
-                var id = await _repository.AddCategory_Product(category);
-                return CreatedAtAction(nameof(GetCategory_ProductById), new { id }, category);
+                var category_product = await _repository.AddCategory_Product(category);
+                var response = new ResponseMessageModel<long>
+                {
+                    StatusCode = 201,
+                    Message = "Thêm loại tin tức thành công",
+                    Data = category_product
+                };
+                return CreatedAtAction(nameof(GetCategory_ProductById), new { id = category_product }, response);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory_Product(long id, Category_Product category)
+        public async Task<IActionResult> UpdatetCategory_Product(long id, Category_Product category)
         {
             try
             {
                 await _repository.UpdateCategory_Product(id, category);
-                return Ok();
+                var response = new ResponseMessageModel<string>
+                {
+                    StatusCode = 200,
+                    Message = "Sửa loại sản phẩm thành công!!!",
+                    Data = null
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -81,12 +134,34 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                await _repository.DeleteCategory_Product(id);
-                return Ok();
+                var is_delete = await _repository.DeleteCategory_Product(id);
+                if (!is_delete)
+                {
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy sản phẩm tức!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
+                }
+
+                var responses = new ResponseMessageModel<string>
+                {
+                    StatusCode = 200,
+                    Message = "Xoá thành công loại sản phẩm",
+                    Data = null
+                };
+                return Ok(responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
     }

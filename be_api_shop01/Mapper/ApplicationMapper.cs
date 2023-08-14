@@ -9,7 +9,7 @@ namespace be_api_shop01.Mapper
     {
         public ApplicationMapper()
         {
-            CreateMap<Category_Product, Category_ProductModel>();
+            
         }
     }
 }

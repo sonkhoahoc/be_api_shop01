@@ -13,7 +13,6 @@ namespace be_api_shop01.Repository
         public Category_ProductRepository(ApplicationContext context)
         {
             _context = context;
-
         }
 
         public async Task<long> AddCategory_Product(Category_Product category)
@@ -26,34 +25,36 @@ namespace be_api_shop01.Repository
             return category.id;
         }
 
-        public async Task DeleteCategory_Product(long id)
+        public async Task<bool> DeleteCategory_Product(long id)
         {
             var category_product = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
-            if(category_product != null)
+            if (category_product != null)
             {
                 _context.Category_Product.Remove(category_product);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return  false;
         }
-        
+
         public async Task<List<Category_Product>> GetAllCategory_Product()
         {
             return await _context.Category_Product.OrderByDescending(ct => ct.dateAdded).ToListAsync();
         }
 
-        public async Task<Category_Product> GetCategory_ProductById(long id)
+        public Task<Category_Product> GetCategory_ProductById(long id)
         {
-            return await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
+            return _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
         }
 
         public async Task UpdateCategory_Product(long id, Category_Product category)
         {
-            var category_products = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
-            if(category_products != null)
+            var category_product = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
+            if(category_product != null)
             {
-                category_products.name = category.name;
+                category_product.name  = category.name;
                 await _context.SaveChangesAsync();
-            }   
+            }
         }
     }
 }

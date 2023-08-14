@@ -111,9 +111,9 @@ namespace be_api_shop01.Controllers
                 await _reponsitory.UpdateCategory_News(id, category_news);
                 var responses = new ResponseMessageModel<string>
                 {
-                    StatusCode = 200,
-                    Message = "Sửa loại tin tức thành công!!!",
-                    Data = null
+                        StatusCode = 200,
+                        Message = "Sửa loại tin tức thành công!!!",
+                        Data = null
                 };
                 return Ok(responses);
             }
@@ -138,9 +138,9 @@ namespace be_api_shop01.Controllers
                 {
                     var response = new ResponseMessageModel<string>
                     {
-                        StatusCode = 404,
-                        Message = "Không tìm thấy loại tin tức!!!",
-                        Data = null
+                            StatusCode = 404,
+                            Message = "Không tìm thấy loại tin tức!!!",
+                            Data = null
                     };
                     return NotFound(response);
                 }
