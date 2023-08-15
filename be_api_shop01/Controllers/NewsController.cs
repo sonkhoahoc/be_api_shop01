@@ -8,26 +8,51 @@ namespace be_api_shop01.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SliderController : ControllerBase
+    public class NewsController : ControllerBase
     {
-        private readonly ISliderRepository _repository;
+        private readonly INewsRepository _reponsitory;
 
-        public SliderController(ISliderRepository repository)
+        public NewsController(INewsRepository reponsitory)
         {
-            _repository = repository;
+            _reponsitory = reponsitory;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSlider()
+        public async Task<IActionResult> GetAllNews()
         {
             try
             {
-                var slider = await _repository.GetAllSlider();
-                var response = new ResponseMessageModel<List<Slider>>
+                var news = await _reponsitory.GetAllNews();
+                var response = new ResponseMessageModel<List<News>>
                 {
                     StatusCode = 200,
-                    Message = "Hiện thị danh sách slider thành công!!!",
-                    Data = slider
+                    Message = "",
+                    Data = news
+                };
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpGet("category/{category_id}")]
+        public async Task<IActionResult> GetListNewsByCategory_Id(long category_id)
+        {
+            try
+            {
+                var news = await _reponsitory.GetListNewsByCategory_Id(category_id);
+                var response = new ResponseMessageModel<List<News>>
+                {
+                    StatusCode = 200,
+                    Message = "",
+                    Data = news
                 };
                 return Ok(response);
             }
@@ -43,27 +68,27 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSliderById(long id)
+        public async Task<IActionResult> GetNewsById(long id)
         {
             try
             {
-                var slider = await _repository.GetSliderById(id);
-                if (slider == null)
+                var news = await _reponsitory.GetNewsById(id);
+                if(news == null)
                 {
                     var response = new ResponseMessageModel<string>
                     {
                         StatusCode = 404,
-                        Message = "Không tìm thấy slider!!!",
+                        Message = "",
                         Data = null
                     };
                     return NotFound(response);
                 }
 
-                var responses = new ResponseMessageModel<Slider>
+                var responses = new ResponseMessageModel<News>
                 {
                     StatusCode = 200,
-                    Message = "Hiển thị slider theo id thành công!!!",
-                    Data = slider
+                    Message = "",
+                    Data = news
                 };
                 return Ok(responses);
             }
@@ -79,19 +104,19 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSlider([FromBody] Slider slider)
+        public async Task<IActionResult> AddNews([FromBody] News news)
         {
             try
             {
-                var sliders = await _repository.AddSlider(slider);
+                var add_news = await _reponsitory.AddNews(news);
                 var response = new ResponseMessageModel<long>
                 {
-                    StatusCode = 201,
-                    Message = "Thêm slider thành công",
-                    Data = sliders
+                    StatusCode = 200,
+                    Message = "",
+                    Data = add_news
                 };
-                return CreatedAtAction(nameof(GetSliderById), new {id = slider}, response);
-            }   
+                return CreatedAtAction(nameof(GetNewsById), new { id = add_news }, response);   
+            }
             catch (Exception)
             {
                 return Ok(new ResponseMessageModel<IResponseData>
@@ -104,15 +129,15 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatetSlider(long id, [FromBody] Slider slider)
+        public async Task<IActionResult> UpdateNews(long id,[FromBody] News news)
         {
             try
             {
-                await _repository.UpdateSlider(id, slider);
+                await _reponsitory.UpdateNews(id , news);
                 var response = new ResponseMessageModel<string>
                 {
                     StatusCode = 200,
-                    Message = "Sửa loại slider thành công!!!",
+                    Message = "",
                     Data = null
                 };
                 return Ok(response);
@@ -129,17 +154,17 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSiler(long id)
+        public async Task<IActionResult> DeleteNews(long id)
         {
             try
             {
-                var is_delete = await _repository.DeleteSlider(id);
-                if (is_delete)
+                var is_delete = await _reponsitory.DeleteNews(id);
+                if (!is_delete)
                 {
                     var response = new ResponseMessageModel<string>
                     {
                         StatusCode = 404,
-                        Message = "Không tìm thấy slider!!!",
+                        Message = "",
                         Data = null
                     };
                     return NotFound(response);
@@ -148,7 +173,7 @@ namespace be_api_shop01.Controllers
                 var responses = new ResponseMessageModel<IResponseData>
                 {
                     StatusCode = 200,
-                    Message = "Xoá thành công slider",
+                    Message = "",
                     Data = null
                 };
                 return Ok(responses);

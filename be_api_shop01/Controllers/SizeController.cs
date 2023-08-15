@@ -104,7 +104,7 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSize(Size size)
+        public async Task<IActionResult> AddSize([FromBody] Size size)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSize(long id, Size size)
+        public async Task<IActionResult> UpdateSize(long id,[FromBody] Size size)
         {
             try
             {
