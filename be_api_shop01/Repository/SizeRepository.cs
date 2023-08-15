@@ -24,14 +24,16 @@ namespace be_api_shop01.Repository
             return size.id;
         }
 
-        public async Task DeleteSize(long id)
+        public async Task<bool> DeleteSize(long id)
         {
             var sizes = await _context.Size.FirstOrDefaultAsync(s => s.id == id);
-            if(sizes != null)
+            if (sizes != null)
             {
                 _context.Size.Remove(sizes);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
         public async Task<List<Size>> GetAllSize()
@@ -54,8 +56,8 @@ namespace be_api_shop01.Repository
             var sizes = await _context.Size.FirstOrDefaultAsync(s => s.id == id);
             if (sizes != null)
             {
-                sizes.name = size.name;
-                sizes.quantity = size.quantity;
+                sizes.name = sizes.name;
+                sizes.quantity = sizes.quantity;
                 await _context.SaveChangesAsync();
             }
         }

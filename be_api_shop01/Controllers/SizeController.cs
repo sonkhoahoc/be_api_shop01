@@ -1,5 +1,6 @@
 ﻿using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
+using be_api_shop01.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,26 +22,48 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var size = await _repository.GetAllSize();  
-                return Ok(size);
+                var sizes = await _repository.GetAllSize();
+                var response = new ResponseMessageModel<List<Size>>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị danh sách size thành công!!!",
+                    Data = sizes
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
-        [HttpGet("size/{productId}")]
+        [HttpGet("product/{productId}")]
         public async Task<IActionResult> GetListSizeByProId(long productId)
         {
             try
             {
                 var sizes = await _repository.GetListSizrByProId(productId);
-                return Ok(sizes);
+                var response = new ResponseMessageModel<List<Size>>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị danh sách size theo sản phẩm thành công!!!",
+                    Data = sizes
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -49,16 +72,34 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var size = await _repository.GetSizeById(id);
-                if(size == null)
+                var sizes = await _repository.GetSizeById(id);
+                if (sizes == null)
                 {
-                    return NotFound();
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy size!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
                 }
-                return Ok(size);
+
+                var responses = new ResponseMessageModel<Size>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị size theo id thành công!!!",
+                    Data = sizes
+                };
+                return Ok(responses);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -67,12 +108,23 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var id = await _repository.AddSize(size);
-                return CreatedAtAction(nameof(GetSizeById), new { id }, size);
+                var newsizes = await _repository.AddSize(size);
+                var response = new ResponseMessageModel<long>
+                {
+                    StatusCode = 200,
+                    Message = "Thêm size thành công!!!",
+                    Data = newsizes
+                };
+                return CreatedAtAction(nameof(GetSizeById), new { id = newsizes }, response);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -82,11 +134,22 @@ namespace be_api_shop01.Controllers
             try
             {
                 await _repository.UpdateSize(id, size);
-                return Ok();
+                var response = new ResponseMessageModel<string>
+                {
+                    StatusCode = 200,
+                    Message = "Sửa size thành công!!!",
+                    Data = null
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
 
@@ -95,12 +158,34 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                await _repository.DeleteSize(id);
-                return Ok();
+                var is_delete = await _repository.DeleteSize(id);
+                if(!is_delete)
+                {
+                    var response = new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm size!!!",
+                        Data = null
+                    };
+                    return NotFound(response);
+                }
+
+                var responses = new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 200,
+                    Message = "Xoá size thành công!!!",
+                    Data = null
+                };
+                return Ok(responses);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
             }
         }
     }

@@ -9,6 +9,6 @@ namespace be_api_shop01.IRepository
         public Task<Size> GetSizeById(long id);
         public Task<long> AddSize(Size size);
         public Task UpdateSize(long id,  Size size);
-        public Task DeleteSize(long id);
+        public Task<bool> DeleteSize(long id);
     }
 }
