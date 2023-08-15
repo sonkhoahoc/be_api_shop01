@@ -26,7 +26,7 @@ namespace be_api_shop01.Controllers
                 var response = new ResponseMessageModel<List<News>>
                 {
                     StatusCode = 200,
-                    Message = "",
+                    Message = "Hiển thị danh sách tin tức thành công!!!",
                     Data = news
                 };
                 return Ok(response);
@@ -51,7 +51,7 @@ namespace be_api_shop01.Controllers
                 var response = new ResponseMessageModel<List<News>>
                 {
                     StatusCode = 200,
-                    Message = "",
+                    Message = "Hiển thị danh sách tin tức theo loại tin tức thành công!!!",
                     Data = news
                 };
                 return Ok(response);
@@ -78,7 +78,7 @@ namespace be_api_shop01.Controllers
                     var response = new ResponseMessageModel<string>
                     {
                         StatusCode = 404,
-                        Message = "",
+                        Message = "Không tìm thấy tin tức",
                         Data = null
                     };
                     return NotFound(response);
@@ -87,7 +87,7 @@ namespace be_api_shop01.Controllers
                 var responses = new ResponseMessageModel<News>
                 {
                     StatusCode = 200,
-                    Message = "",
+                    Message = "Hiển thị tin thức theo id thành công!!!",
                     Data = news
                 };
                 return Ok(responses);
@@ -112,7 +112,7 @@ namespace be_api_shop01.Controllers
                 var response = new ResponseMessageModel<long>
                 {
                     StatusCode = 200,
-                    Message = "",
+                    Message = "Thêm tin tức thành công!!!",
                     Data = add_news
                 };
                 return CreatedAtAction(nameof(GetNewsById), new { id = add_news }, response);   
@@ -137,7 +137,7 @@ namespace be_api_shop01.Controllers
                 var response = new ResponseMessageModel<string>
                 {
                     StatusCode = 200,
-                    Message = "",
+                    Message = "Sửa tin tức thành công!!!",
                     Data = null
                 };
                 return Ok(response);
@@ -164,7 +164,7 @@ namespace be_api_shop01.Controllers
                     var response = new ResponseMessageModel<string>
                     {
                         StatusCode = 404,
-                        Message = "",
+                        Message = "Không tìm thấy tin tức!!!",
                         Data = null
                     };
                     return NotFound(response);
@@ -173,7 +173,7 @@ namespace be_api_shop01.Controllers
                 var responses = new ResponseMessageModel<IResponseData>
                 {
                     StatusCode = 200,
-                    Message = "",
+                    Message = "Xoá tin tức thành công!!!",
                     Data = null
                 };
                 return Ok(responses);
