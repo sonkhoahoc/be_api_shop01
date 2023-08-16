@@ -13,6 +13,7 @@ builder.Services.AddTransient<ICategory_NewsRepository, Category_NewsRepository>
 builder.Services.AddTransient<ISizeRepository, SizeRepository>();
 builder.Services.AddTransient<ISliderRepository, SliderRepository>();
 builder.Services.AddTransient<INewsRepository, NewsRepository>();
+builder.Services.AddTransient<IVoucherRepository, VoucherRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddControllers();
