@@ -48,9 +48,9 @@ namespace be_api_shop01.Repository
             return await _context.Products.OrderByDescending(p => p.dateAdded).ToListAsync();
         }
 
-        public async Task<Products> UpdateProduct(Products product)
+        public async Task<Products> UpdateProduct(long id, Products product)
         {
-            var id_pro = await _context.Products.FirstOrDefaultAsync(p => p.id == product.id);
+            var id_pro = await _context.Products.FindAsync(id);
 
             if(id_pro == null)
             {

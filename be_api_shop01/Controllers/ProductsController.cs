@@ -105,7 +105,7 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var pro = await _proReponsitory.UpdateProduct(products);
+                var pro = await _proReponsitory.UpdateProduct(id,products);
 
                 if(pro == null)
                 {
