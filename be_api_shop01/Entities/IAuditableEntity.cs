@@ -11,5 +11,12 @@ namespace be_api_shop01.Entities
         public DateTime dateAdded { get; set; } = DateTime.Now;
         public DateTime dateUpdated { get; set; }
         public bool is_delete { get; set; } = false;
+        public void getAuditable()
+        {
+            if (this.id == 0)
+                this.dateUpdated = DateTime.Now;
+            else
+                this.dateAdded = DateTime.Now;
+        }
     }
 }
