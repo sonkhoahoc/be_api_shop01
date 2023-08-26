@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using be_api_shop01.Entities;
 
@@ -11,9 +12,10 @@ using be_api_shop01.Entities;
 namespace be_api_shop01.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230825223225_DbIniit06")]
+    partial class DbIniit06
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +64,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("cart", (string)null);
+                    b.ToTable("cart");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Category_News", b =>
@@ -94,7 +96,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("category_news", (string)null);
+                    b.ToTable("category_news");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Category_Product", b =>
@@ -126,7 +128,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("category_product", (string)null);
+                    b.ToTable("category_product");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Customer", b =>
@@ -189,7 +191,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("customer", (string)null);
+                    b.ToTable("customer");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.News", b =>
@@ -240,7 +242,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("news", (string)null);
+                    b.ToTable("news");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Order", b =>
@@ -294,7 +296,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("order", (string)null);
+                    b.ToTable("order");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Order_detail", b =>
@@ -340,7 +342,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("order_detail", (string)null);
+                    b.ToTable("order_detail");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Product_File", b =>
@@ -379,7 +381,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_file", (string)null);
+                    b.ToTable("product_file");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Products", b =>
@@ -430,7 +432,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product", (string)null);
+                    b.ToTable("product");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Size", b =>
@@ -468,7 +470,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("size", (string)null);
+                    b.ToTable("size");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Slider", b =>
@@ -504,7 +506,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("slider", (string)null);
+                    b.ToTable("slider");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.User", b =>
@@ -567,7 +569,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("user", (string)null);
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("be_api_shop01.Entities.Voucher", b =>
@@ -616,7 +618,7 @@ namespace be_api_shop01.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("voucher", (string)null);
+                    b.ToTable("voucher");
                 });
 #pragma warning restore 612, 618
         }

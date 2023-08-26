@@ -2,7 +2,7 @@
 using be_api_shop01.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using be_api_shop01.Models;
+using be_api_shop01.Models.Common;
 
 namespace be_api_shop01.Controllers
 {

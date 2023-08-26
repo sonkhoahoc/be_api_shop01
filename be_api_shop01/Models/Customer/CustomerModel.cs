@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using be_api_shop01.Entities;
 
-namespace be_api_shop01.Entities
+namespace be_api_shop01.Models.Customer
 {
-    [Table("customer")]
-    public class Customer: IAuditableEntity
+    public class CustomerModel: IAuditableEntity
     {
         public string username { get; set; } = "";
         public string email { get; set; } = "";

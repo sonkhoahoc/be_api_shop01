@@ -9,7 +9,7 @@ namespace be_api_shop01.Entities
         public string email { get; set; } = "";
         public string password { get; set; } = "";
         public string passcode { get; set; } = "";
-        public int phone { get; set; }
+        public string phone { get; set; } = string.Empty;
         public string fullname { get; set; } = "";
         public string address { get; set; } = "";
         public string avatar { get; set; }
