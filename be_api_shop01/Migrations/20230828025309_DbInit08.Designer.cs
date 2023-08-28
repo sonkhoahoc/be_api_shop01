@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using be_api_shop01.Entities;
 
@@ -11,9 +12,10 @@ using be_api_shop01.Entities;
 namespace be_api_shop01.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230828025309_DbInit08")]
+    partial class DbInit08
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +52,9 @@ namespace be_api_shop01.Migrations
 
                     b.Property<long>("size_id")
                         .HasColumnType("bigint");
+
+                    b.Property<double>("total_price")
+                        .HasColumnType("float");
 
                     b.Property<long>("userAdded")
                         .HasColumnType("bigint");

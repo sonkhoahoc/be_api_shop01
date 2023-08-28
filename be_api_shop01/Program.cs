@@ -21,6 +21,7 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<IProductsRepository, ProductRepository>();
 builder.Services.AddTransient<IProduct_FileRepository, Product_FileRepository>();
+builder.Services.AddTransient<ICartRepository, CartRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddControllers();
