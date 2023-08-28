@@ -11,7 +11,5 @@ namespace be_api_shop01.Entities
         public double voucher_discount { get; set; }
         public string receive_info { get; set; }
         public string note { get; set; } = "";
-        public DateTime Created_at { get; set; }
-        public DateTime Updated_at { get; set; }
     }
 }
