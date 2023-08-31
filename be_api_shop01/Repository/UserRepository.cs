@@ -21,20 +21,23 @@ namespace be_api_shop01.Repository
 
         public async Task<long> Authenticaticate(LoginModel login)
         {
-            var users = await _context.User.FirstOrDefaultAsync(u => u.username == login.username);
-            if(users == null)
+            var user = await _context.User.FirstOrDefaultAsync(u => u.username == login.username);
+            if (user == null)
             {
-                return 0;
+                return 0; // Người dùng không tồn tại
             }
 
-            var hashPass = Security.MD5Hash(login.password);
-            if (users.password != hashPass)
+            var hashedPassword = Security.MD5Hash(login.password);
+            if (user.password == hashedPassword)
             {
-                return -1;
+                return user.id; // Đăng nhập thành công
             }
-
-            return users.id;
+            else
+            {
+                return -1; // Sai mật khẩu
+            }
         }
+
 
         public async Task<bool> ChangeUserPassword(ChangePassModel passChange)
         {

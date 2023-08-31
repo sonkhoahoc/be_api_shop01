@@ -26,16 +26,16 @@ namespace be_api_shop01.Controllers
                 var userId = await _userRepository.Authenticaticate(loginModel);
                 if (userId == 0)
                 {
-                    return Ok(new ResponseMessageModel<string>
+                    return BadRequest(new ResponseMessageModel<string>
                     {
                         StatusCode = 400,
-                        Message = "Không tim thấy tài khoản!!!",
+                        Message = "Không tìm thấy tài khoản!!!",
                         Data = string.Empty
                     });
                 }
                 else if (userId == -1)
                 {
-                    return Ok(new ResponseMessageModel<string>
+                    return BadRequest(new ResponseMessageModel<string>
                     {
                         StatusCode = 400,
                         Message = "Mật khẩu không đúng!!!",
@@ -54,14 +54,15 @@ namespace be_api_shop01.Controllers
             }
             catch (Exception)
             {
-                return Ok(new ResponseMessageModel<IResponseData>
+                return StatusCode(500, new ResponseMessageModel<IResponseData>
                 {
                     StatusCode = 500,
-                    Message = "Có lỗi xong quá trình xử lý, vui lòng thử lại!!!",
+                    Message = "Có lỗi trong quá trình xử lý, vui lòng thử lại!!!",
                     Data = null
                 });
             }
         }
+
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] UserModel createModel)
