@@ -149,7 +149,6 @@ namespace be_api_shop01.Repository
             user.email = userModify.email;
             user.phone = userModify.phone;
             user.fullname = userModify.fullname;
-            user.avatar = userModify.avatar;
             user.dateAdded = DateTime.Now;
 
             _context.User.Update(user);

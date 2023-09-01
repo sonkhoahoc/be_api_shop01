@@ -12,7 +12,6 @@ namespace be_api_shop01.Entities
         public string phone { get; set; }
         public string fullname { get; set; } = "";
         public string address { get; set; } = "";
-        public string avatar { get; set; }
         public bool is_active { get; set; }
     }
 }

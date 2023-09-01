@@ -8,7 +8,6 @@
         public string phone { get; set; } = string.Empty;
         public string fullname { get; set; }
         public string address { get; set; }
-        public string avatar { get; set; }
     }
 
     public class CustomerModifyModel
@@ -18,7 +17,6 @@
         public string phone { get; set; } = string.Empty;
         public string fullname { get; set; }
         public string address { get; set; }
-        public string avatar { get; set; }
     }
 
 }

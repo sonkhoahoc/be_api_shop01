@@ -142,7 +142,6 @@ namespace be_api_shop01.Repository
             customer.email = userModify.email;
             customer.phone = userModify.phone;
             customer.fullname = userModify.fullname;
-            customer.avatar = userModify.avatar;
             customer.dateAdded = DateTime.Now;
 
             _context.Entry(customer).State = EntityState.Modified;

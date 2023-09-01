@@ -11,7 +11,6 @@ namespace be_api_shop01.Models.Customer
         public string phone { get; set; }
         public string fullname { get; set; } = "";
         public string address { get; set; } = "";
-        public string avatar { get; set; }
         public bool is_active { get; set; }
     }
 }
