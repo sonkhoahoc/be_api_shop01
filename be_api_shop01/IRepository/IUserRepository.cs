@@ -14,6 +14,6 @@ namespace be_api_shop01.IRepository
         public Task<List<UserModel>> GetUserList();
         public Task<long> Authenticaticate(LoginModel login);
         public Task<User> CheckUser(string username);
-        public Task<int> CheckUserExists(string username, string phoneNumber, string email);
+        public Task<int> CheckUserExists(string username, string email);
     }
 }

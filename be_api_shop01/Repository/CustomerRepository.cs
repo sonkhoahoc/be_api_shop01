@@ -27,13 +27,15 @@ namespace be_api_shop01.Repository
                 return 0;
             }
 
-            var hasPass = Security.MD5Hash(login.password);
-            if (customers.password != hasPass)
+            var hashedPassword = Security.MD5Hash(login.password);
+            if (customers.password == hashedPassword)
             {
-                return -1;
+                return customers.id; // Đăng nhập thành công
             }
-
-            return customers.id;
+            else
+            {
+                return -1; // Sai mật khẩu  
+            }
         }
 
         public async Task<bool> ChangeCustomerPassword(ChangePassModel passChange)
@@ -68,22 +70,22 @@ namespace be_api_shop01.Repository
             return await _context.Customer.FirstOrDefaultAsync(c => c.username == username);
         }
 
-        public async Task<int> CheckCustomerExists(string username, string phoneNumber, string email)
+        public async Task<int> CheckCustomerExists(string username, string email)
         {
-            var cusCount = await _context.Customer.CountAsync(c => c.username == username || c.phone == phoneNumber || c.email == email);
+            var cusCount = await _context.Customer.CountAsync(c => c.username == username || c.email == email);
             return cusCount;
         }
 
-        public async Task<CustomerModel> CreateCustomer(CustomerModel userAdd)
+        public async Task<CustomerModel> CreateCustomer(CustomerModel cusAdd)
         {
-            var existingCustomer = await _context.Customer.FirstOrDefaultAsync(c => c.username == userAdd.username || c.email == userAdd.email);
+            var existingCustomer = await _context.Customer.FirstOrDefaultAsync(c => c.username == cusAdd.username || c.email == cusAdd.email);
             if (existingCustomer != null)
             {
                 return null;
             }
 
-            var newCus = _mapper.Map<Customer>(existingCustomer);
-            newCus.password = Security.MD5Hash(userAdd.password);
+            var newCus = _mapper.Map<Customer>(cusAdd);
+            newCus.password = Security.MD5Hash(cusAdd.password);
             newCus.dateAdded = DateTime.UtcNow;
 
             _context.Customer.Add(newCus);
@@ -140,6 +142,7 @@ namespace be_api_shop01.Repository
             customer.email = userModify.email;
             customer.phone = userModify.phone;
             customer.fullname = userModify.fullname;
+            customer.avatar = userModify.avatar;
             customer.dateAdded = DateTime.Now;
 
             _context.Entry(customer).State = EntityState.Modified;

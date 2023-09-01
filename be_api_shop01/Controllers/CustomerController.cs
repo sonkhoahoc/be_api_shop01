@@ -304,11 +304,11 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpGet("checkuserexists")]
-        public async Task<IActionResult> CheckCustomerExists([FromQuery] string username, [FromQuery] string phoneNumber, [FromQuery] string emai)
+        public async Task<IActionResult> CheckCustomerExists([FromQuery] string username, [FromQuery] string emai)
         {
             try
             {
-                var cusCount = await _customerRepository.CheckCustomerExists(username, phoneNumber, emai);
+                var cusCount = await _customerRepository.CheckCustomerExists(username, emai);
                 return Ok(new ResponseMessageModel<int>
                 {
                     StatusCode = 200,
