@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _orderRepository = orderRepository;
         }
 
-        [HttpGet]
+        [HttpGet("order-list")]
         public async Task<IActionResult> GetistOrder()
         {
             try
@@ -41,7 +41,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("order/{id}")]
         public async Task<IActionResult> GetOrderById(long id)
         {
             try
@@ -76,7 +76,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("order-create")]
         public async Task<IActionResult> CreateOrder([FromBody] Order order)
         {
             try
@@ -100,7 +100,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("order-put/{id}")]
         public async Task<IActionResult> ModifyOrder(long id, [FromBody] Order order)
         {
             try
@@ -135,7 +135,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("order-delete/{id}")]
         public async Task<IActionResult> DeleteOrder(long id)
         {
             try

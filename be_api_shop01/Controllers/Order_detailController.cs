@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _order_detail_repository = order_detail_repository;
         }
 
-        [HttpGet]
+        [HttpGet("order-detail-list")]
         public async Task<IActionResult> GetListOrder_detail()
         {
             try
@@ -41,7 +41,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("order-detai/{id}")]
         public async Task<IActionResult> GetOrder_detailById(long id)
         {
             try
@@ -76,7 +76,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("order-detai-create")]
         public async Task<IActionResult> CreateOrder_detail([FromBody] Order_detail order_detail)
         {
             try
@@ -100,7 +100,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("order-detai-put/{id}")]
         public async Task<IActionResult> ModifyOrder_detail(long id, [FromBody] Order_detail order_detail)
         {
             try
@@ -135,7 +135,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("order-detai-delete/{id}")]
         public async Task<IActionResult> DeleteOrder_deteail(long id)
         {
             try

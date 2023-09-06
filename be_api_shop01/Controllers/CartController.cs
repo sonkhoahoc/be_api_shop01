@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _cartRepository = cartRepository;
         }
 
-        [HttpGet]
+        [HttpGet("cart-list")]
         public async Task<IActionResult> GetListCart()
         {
             try
@@ -41,7 +41,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("cart/{id}")]
         public async Task<IActionResult> GetCartById(long id)
         {
             try
@@ -75,7 +75,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("cart-create")]
         public async Task<IActionResult> CreateCart([FromBody] Cart cart)
         {
             try
@@ -99,7 +99,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("cart-create/{id}")]
         public async Task<IActionResult> UpdateCart(long id, [FromBody] Cart cart)
         {
             try
@@ -134,7 +134,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("cart-delete/{id}")]
         public async Task<IActionResult> DeleteCart(long id)
         {
             try

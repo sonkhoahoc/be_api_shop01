@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("size-list")]
         public async Task<IActionResult> GetAllSize()
         {
             try
@@ -42,7 +42,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("product/{productId}")]
+        [HttpGet("size/product/{productId}")]
         public async Task<IActionResult> GetListSizeByProId(long productId)
         {
             try
@@ -67,7 +67,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("size/{id}")]
         public async Task<IActionResult> GetSizeById(long id)
         {
             try
@@ -103,7 +103,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("size-create")]
         public async Task<IActionResult> AddSize([FromBody] Size size)
         {
             try
@@ -128,7 +128,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("size-put/{id}")]
         public async Task<IActionResult> UpdateSize(long id,[FromBody] Size size)
         {
             try
@@ -153,7 +153,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("size-delete/{id}")]
         public async Task<IActionResult> DeleteSize(long id)
         {
             try

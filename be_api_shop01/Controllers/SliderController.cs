@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("slider-list")]
         public async Task<IActionResult> GetAllSlider()
         {
             try
@@ -42,7 +42,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("slider/{id}")]
         public async Task<IActionResult> GetSliderById(long id)
         {
             try
@@ -78,7 +78,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("slider-create")]
         public async Task<IActionResult> AddSlider([FromBody] Slider slider)
         {
             try
@@ -103,7 +103,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("slider-put/{id}")]
         public async Task<IActionResult> UpdatetSlider(long id, [FromBody] Slider slider)
         {
             try
@@ -128,7 +128,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("slider-delete/{id}")]
         public async Task<IActionResult> DeleteSiler(long id)
         {
             try

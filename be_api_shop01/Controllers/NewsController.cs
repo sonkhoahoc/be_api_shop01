@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _reponsitory = reponsitory;
         }
 
-        [HttpGet]
+        [HttpGet("news-list")]
         public async Task<IActionResult> GetAllNews()
         {
             try
@@ -42,7 +42,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("category/{category_id}")]
+        [HttpGet("cart/category/{category_id}")]
         public async Task<IActionResult> GetListNewsByCategory_Id(long category_id)
         {
             try
@@ -67,7 +67,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("cart/{id}")]
         public async Task<IActionResult> GetNewsById(long id)
         {
             try
@@ -103,7 +103,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("cart-create")]
         public async Task<IActionResult> AddNews([FromBody] News news)
         {
             try
@@ -128,7 +128,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("cart-put/{id}")]
         public async Task<IActionResult> UpdateNews(long id,[FromBody] News news)
         {
             try
@@ -153,7 +153,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("cart-delete/{id}")]
         public async Task<IActionResult> DeleteNews(long id)
         {
             try

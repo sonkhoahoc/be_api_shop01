@@ -16,7 +16,7 @@ namespace be_api_shop01.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("category-product-list")]
         public async Task<IActionResult> GetAllCategory_Product()
         {
             try
@@ -41,7 +41,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("category-product/{id}")]
         public async Task<IActionResult> GetCategory_ProductById(long id)
         {
             try
@@ -77,7 +77,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("category-product-create")]
         public async Task<IActionResult> AddCategory_Product([FromBody] Category_Product category)
         {
             try
@@ -102,7 +102,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("category-product-put/{id}")]
         public async Task<IActionResult> UpdatetCategory_Product(long id,[FromBody] Category_Product category)
         {
             try
@@ -127,7 +127,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("category-product-delete/{id}")]
         public async Task<IActionResult> DeleteCategory_Product(long id)
         {
             try

@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _product_file_repository = product_file_repository;
         }
 
-        [HttpGet]
+        [HttpGet("product-file-list")]
         public async Task<IActionResult> GetListProduct_File()
         {
             try
@@ -41,7 +41,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("product/{product_id}")]
+        [HttpGet("product-file/product/{product_id}")]
         public async Task<IActionResult> GetListProduct_FileByPro_Id(long product_id)
         {
             try
@@ -65,7 +65,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("product-file/{id}")]
         public async Task<IActionResult> GetProduct_FileById(long id)
         {
             try
@@ -100,7 +100,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("product-file-create")]
         public async Task<IActionResult> CreateProduct_File(long proId,[FromBody] Product_File file)
         {
             try
@@ -125,7 +125,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("product-file-put/{id}")]
         public async Task<IActionResult> UpdateProduct_FIle(long id,[FromBody] Product_File file)
         {
             try
@@ -159,7 +159,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("product-file-delete/{id}")]
         public async Task<IActionResult> DeleteProduct_File(long id)
         {
             try

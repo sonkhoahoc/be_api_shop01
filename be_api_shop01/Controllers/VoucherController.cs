@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("voucher-list")]
         public async Task<IActionResult> GetAllVoucher()
         {
             try
@@ -42,7 +42,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("voucher/{id}")]
         public async Task<IActionResult> GetVoucherById(long id)
         {
             try
@@ -78,7 +78,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("voucher-create")]
         public async Task<IActionResult> AddVoucher([FromBody] Voucher voucher)
         {
             try
@@ -103,7 +103,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("voucher-put/{id}")]
         public async Task<IActionResult> UpdateVoucher(long id, [FromBody] Voucher voucher)
         {
             try
@@ -128,7 +128,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("voucher-delete/{id}")]
         public async Task<IActionResult> DeleteVoucher(long id)
         {
             try

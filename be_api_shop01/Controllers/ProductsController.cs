@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _proReponsitory = proReponsitory;
         }
 
-        [HttpGet]
+        [HttpGet("product-list")]
         public async Task<IActionResult> GetListProduct()
         {
             try
@@ -41,7 +41,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("product/{id}")]
         public async Task<IActionResult> GetProductById(long id)
         {
             try
@@ -76,7 +76,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("product-create")]
         public async Task<IActionResult> CreateProduct([FromBody] Products product)
         {
             try
@@ -100,7 +100,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("id")]
+        [HttpPut("product-put/{id}")]
         public async Task<IActionResult> UpdateProduct(long id, [FromBody] Products products)
         {
             try
@@ -135,7 +135,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("product-delete/{id}")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
             try

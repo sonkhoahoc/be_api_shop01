@@ -17,7 +17,7 @@ namespace be_api_shop01.Controllers
             _reponsitory = reponsitory;
         }
 
-        [HttpGet]
+        [HttpGet("category-news-list")]
         public async Task<IActionResult> GettAllCategory_News()
         {
             try
@@ -42,7 +42,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("category-news/{id}")]
         public async Task<IActionResult> GetCategory_NewsById(long id)
         {
             try
@@ -78,7 +78,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("category-news-create")]
         public async Task<IActionResult> AddCategory_News([FromBody] Category_News category_news)
         {
             try
@@ -103,7 +103,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("category-news-put/{id}")]
         public async Task<IActionResult> UpdateCategory_News(long id, [FromBody] Category_News category_news)
         {
             try
@@ -128,7 +128,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("category-news-delete/{id}")]
         public async Task<IActionResult> DeleteCategory_News(long id)
         {
             try
