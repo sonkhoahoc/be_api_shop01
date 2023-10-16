@@ -101,11 +101,11 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPost("product-file-create")]
-        public async Task<IActionResult> CreateProduct_File(long proId,[FromBody] Product_File file)
+        public async Task<IActionResult> CreateProduct_File([FromBody] Product_File file)
         {
             try
             {
-                var files = await _product_file_repository.CreateFile(proId, file);
+                var files = await _product_file_repository.CreateFile( file);
                 return Ok(new ResponseMessageModel<Product_File>
                 {
                     StatusCode = 200,

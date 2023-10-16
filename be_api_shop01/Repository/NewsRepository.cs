@@ -25,14 +25,16 @@ namespace be_api_shop01.Repository
 
         public async Task<bool> DeleteNews(long id)
         {
-            var id_delete = await _context.News.FirstOrDefaultAsync(n => n.id == id);
-            if(id_delete != null)
+            var id_delete = await _context.News.FindAsync(id);
+
+            if(id_delete == null)
             {
-                _context.News.Remove(id_delete);
-                await _context.SaveChangesAsync();
-                return true;
+                return false;
             }
-            return false;
+            
+            _context.News.Remove(id_delete);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<News>> GetAllNews()
@@ -55,6 +57,7 @@ namespace be_api_shop01.Repository
             var update_news = await _context.News.FirstOrDefaultAsync(n => n.id == id);
             if (update_news != null)
             {
+                update_news.category_id = news.category_id;
                 update_news.title = news.title;
                 update_news.short_description = news.short_description;
                 update_news.content = news.content;

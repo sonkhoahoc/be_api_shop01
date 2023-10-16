@@ -108,14 +108,14 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                var newsizes = await _repository.AddSize(size);
-                var response = new ResponseMessageModel<long>
+                var sizes = await _repository.AddSize(size);
+
+                return Ok(new ResponseMessageModel<Size>
                 {
                     StatusCode = 200,
-                    Message = "Thêm size thành công!!!",
-                    Data = newsizes
-                };
-                return CreatedAtAction(nameof(GetSizeById), new { id = newsizes }, response);
+                    Message = "thêm sản phẩm thành công!!!",
+                    Data = sizes
+                });
             }
             catch(Exception)
             {
@@ -129,18 +129,28 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpPut("size-put/{id}")]
-        public async Task<IActionResult> UpdateSize(long id,[FromBody] Size size)
+        public async Task<IActionResult> UpdateSize(long id, [FromBody] Size size)
         {
             try
             {
-                await _repository.UpdateSize(id, size);
-                var response = new ResponseMessageModel<string>
+                var up_sizes = await _repository.UpdateSize(id, size);
+
+                if(up_sizes == null)
+                {
+                    return Ok(new ResponseMessageModel<Size>
+                    {
+                        StatusCode = 404,
+                        Message = "không thấy ",
+                        Data = null
+                    });
+                }
+
+                return Ok(new ResponseMessageModel<Size>
                 {
                     StatusCode = 200,
-                    Message = "Sửa size thành công!!!",
-                    Data = null
-                };
-                return Ok(response);
+                    Message = "Thanh công",
+                    Data = up_sizes
+                });
             }
             catch (Exception)
             {

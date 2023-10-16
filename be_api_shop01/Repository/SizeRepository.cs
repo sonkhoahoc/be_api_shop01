@@ -14,14 +14,14 @@ namespace be_api_shop01.Repository
             _context = context;
         }
 
-        public async Task<long> AddSize(Size size)
+        public async Task<Size> AddSize(Size size)
         {
             size.dateAdded = DateTime.Now;
             size.dateUpdated = DateTime.Now;
 
             _context.Size.Add(size);
             await _context.SaveChangesAsync();
-            return size.id;
+            return size;
         }
 
         public async Task<bool> DeleteSize(long id)
@@ -51,15 +51,22 @@ namespace be_api_shop01.Repository
             return await _context.Size.FirstOrDefaultAsync(s => s.id == id);
         }
 
-        public async Task UpdateSize(long id, Size size)
+        public async Task<Size> UpdateSize(long id, Size size)
         {
-            var sizes = await _context.Size.FirstOrDefaultAsync(s => s.id == id);
-            if (sizes != null)
+            var up_size = await _context.Size.FirstOrDefaultAsync(s => s.id == id);
+            if (up_size == null)
             {
-                sizes.name = sizes.name;
-                sizes.quantity = sizes.quantity;
-                await _context.SaveChangesAsync();
+                return null;
             }
+
+             up_size.product_id = size.product_id;
+             up_size.name = size.name;
+             up_size.quantity = size.quantity;
+
+             _context.Entry(up_size).State = EntityState.Modified;
+             await _context.SaveChangesAsync();
+
+            return up_size;
         }
     }
 }

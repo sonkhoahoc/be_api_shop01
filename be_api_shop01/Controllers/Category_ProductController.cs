@@ -83,13 +83,13 @@ namespace be_api_shop01.Controllers
             try
             {
                 var category_product = await _repository.AddCategory_Product(category);
-                var response = new ResponseMessageModel<long>
+                return Ok(new ResponseMessageModel<Category_Product>
                 {
-                    StatusCode = 201,
-                    Message = "Thêm loại tin tức thành công",
+                    StatusCode = 200,
+                    Message = "Thành công",
                     Data = category_product
-                };
-                return CreatedAtAction(nameof(GetCategory_ProductById), new { id = category_product }, response);
+                });
+                
             }
             catch (Exception)
             {
@@ -107,14 +107,24 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                await _repository.UpdateCategory_Product(id, category);
-                var response = new ResponseMessageModel<string>
+                var categories = await _repository.UpdateCategory_Product(id, category);
+                
+                if(categories == null)
+                {
+                    return Ok(new ResponseMessageModel<Category_Product>
+                    {
+                        StatusCode = 404,
+                        Message = "Không thấy",
+                        Data = null
+                    });
+                }
+
+                return Ok(new ResponseMessageModel<Category_Product>
                 {
                     StatusCode = 200,
-                    Message = "Sửa loại sản phẩm thành công!!!",
-                    Data = null
-                };
-                return Ok(response);
+                    Message = "Thành công ",
+                    Data = categories
+                });
             }
             catch (Exception)
             {

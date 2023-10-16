@@ -1,4 +1,4 @@
-﻿using be_api_shop01.Entities;
+﻿    using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +38,11 @@ namespace be_api_shop01.Repository
             return true;
         }
 
+        public async Task<long> GetTotalProduct()
+        {
+            return await _context.Products.CountAsync();
+        }
+
         public async Task<Products> ProductById(long id)
         {
             return await _context.Products.FindAsync(id);
@@ -46,6 +51,11 @@ namespace be_api_shop01.Repository
         public async Task<List<Products>> ProductList()
         {
             return await _context.Products.OrderByDescending(p => p.dateAdded).ToListAsync();
+        }
+
+        public async Task<List<Products>> ProductListByCate_Id(long cate_id)
+        {
+            return await _context.Products.Where(p => p.category_id == cate_id).OrderByDescending(p => p.dateAdded).ToListAsync();
         }
 
         public async Task<Products> UpdateProduct(long id, Products product)
@@ -57,10 +67,11 @@ namespace be_api_shop01.Repository
                 return null;
             }
 
+            id_pro.category_id = product.category_id;
             id_pro.name = product.name;
             id_pro.price = product.price;
-            id_pro.stock_quantity = product.stock_quantity;
             id_pro.avatar = product.avatar;
+            id_pro.description = product.description;
 
             _context.Entry(id_pro).State = EntityState.Modified;
             await _context.SaveChangesAsync();

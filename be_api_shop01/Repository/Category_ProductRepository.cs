@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
 using be_api_shop01.Models;
@@ -15,14 +15,14 @@ namespace be_api_shop01.Repository
             _context = context;
         }
 
-        public async Task<long> AddCategory_Product(Category_Product category)
+        public async Task<Category_Product> AddCategory_Product(Category_Product category)
         {
             category.dateAdded = DateTime.Now;
             category.dateUpdated = DateTime.Now;
 
             _context.Category_Product.Add(category);
             await _context.SaveChangesAsync();
-            return category.id;
+            return category;
         }
 
         public async Task<bool> DeleteCategory_Product(long id)
@@ -47,14 +47,18 @@ namespace be_api_shop01.Repository
             return _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
         }
 
-        public async Task UpdateCategory_Product(long id, Category_Product category)
+        public async Task<Category_Product> UpdateCategory_Product(long id, Category_Product category)
         {
             var category_product = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
-            if(category_product != null)
+            if(category_product == null)
             {
-                category_product.name  = category.name;
-                await _context.SaveChangesAsync();
+                return null;
             }
+            category_product.name  = category.name;
+            _context.Entry(category_product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return category_product;
         }
     }
 }

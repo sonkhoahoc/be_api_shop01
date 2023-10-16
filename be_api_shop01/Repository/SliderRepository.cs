@@ -13,14 +13,14 @@ namespace be_api_shop01.Repository
             _context = context;
         }
 
-        public async Task<long> AddSlider(Slider slider)
+        public async Task<Slider> AddSlider(Slider slider)
         {
             slider.dateAdded = DateTime.Now;
             slider.dateUpdated = DateTime.Now;
 
             _context.Slider.Add(slider);
             await _context.SaveChangesAsync();
-            return slider.id;
+            return slider;
         }
 
         public async Task<bool> DeleteSlider(long id)
@@ -45,15 +45,20 @@ namespace be_api_shop01.Repository
             return await _context.Slider.FirstOrDefaultAsync(s => s.id == id);
         }
 
-        public async Task UpdateSlider(long id, Slider slider)
+        public async Task<Slider> UpdateSlider(long id, Slider slider)
         {
             var sliders = await _context.Slider.FirstOrDefaultAsync(s => s.id == id);
-            if (sliders != null)
+            if (sliders == null)
             {
-                sliders.url = slider.url;
-                sliders.note = slider.note;
-                await _context.SaveChangesAsync();
+                return null;
             }
+
+            sliders.url = slider.url;
+            sliders.note = slider.note;
+            _context.Entry(sliders).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return sliders;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("cart/category/{category_id}")]
+        [HttpGet("news/category/{category_id}")]
         public async Task<IActionResult> GetListNewsByCategory_Id(long category_id)
         {
             try
@@ -67,7 +67,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpGet("cart/{id}")]
+        [HttpGet("news/{id}")]
         public async Task<IActionResult> GetNewsById(long id)
         {
             try
@@ -103,7 +103,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPost("cart-create")]
+        [HttpPost("news-create")]
         public async Task<IActionResult> AddNews([FromBody] News news)
         {
             try
@@ -128,7 +128,7 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpPut("cart-put/{id}")]
+        [HttpPut("news-put/{id}")]
         public async Task<IActionResult> UpdateNews(long id,[FromBody] News news)
         {
             try
@@ -153,24 +153,25 @@ namespace be_api_shop01.Controllers
             }
         }
 
-        [HttpDelete("cart-delete/{id}")]
+        [HttpDelete("news-delete/{id}")]
         public async Task<IActionResult> DeleteNews(long id)
         {
             try
             {
                 var is_delete = await _reponsitory.DeleteNews(id);
+
                 if (!is_delete)
                 {
-                    var response = new ResponseMessageModel<string>
+                    var response = new ResponseMessageModel<News>
                     {
                         StatusCode = 404,
                         Message = "Không tìm thấy tin tức!!!",
                         Data = null
                     };
                     return NotFound(response);
-                }
+                };
 
-                var responses = new ResponseMessageModel<IResponseData>
+                var responses = new ResponseMessageModel<News>
                 {
                     StatusCode = 200,
                     Message = "Xoá tin tức thành công!!!",

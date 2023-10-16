@@ -1,4 +1,4 @@
-﻿using be_api_shop01.Entities;
+﻿    using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
 using be_api_shop01.Models.Common;
 using Microsoft.AspNetCore.Http;
@@ -41,6 +41,31 @@ namespace be_api_shop01.Controllers
             }
         }
 
+        [HttpGet("product/category/{cate_id}")]
+        public async Task<ActionResult> GetListSizeByProId(long cate_id)
+        {
+            try
+            {
+                var p = await _proReponsitory.ProductListByCate_Id(cate_id);
+                var response = new ResponseMessageModel<List<Products>>
+                {
+                    StatusCode = 200,
+                    Message = "Hiển thị danh sách thành công!!!",
+                    Data = p
+                };
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
+            }
+        }
+
         [HttpGet("product/{id}")]
         public async Task<IActionResult> GetProductById(long id)
         {
@@ -71,6 +96,30 @@ namespace be_api_shop01.Controllers
                 {
                     StatusCode = 500,
                     Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpGet("product-count")]
+        public async Task<IActionResult> GetTotalProduct()
+        {
+            try
+            {
+                var p = await _proReponsitory.GetTotalProduct();
+                return Ok(new ResponseMessageModel<long>
+                {
+                    StatusCode = 200,
+                    Message = "Lấy dữ liệu thành công!!!",
+                    Data = p
+                });
+            }
+            catch (Exception) 
+            {
+                return Ok(new ResponseMessageModel<string>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
                     Data = null
                 });
             }
@@ -144,20 +193,22 @@ namespace be_api_shop01.Controllers
 
                 if (!pro)
                 {
-                    return Ok(new ResponseMessageModel<Products>
+                    var response = new ResponseMessageModel<Products>
                     {
                         StatusCode = 404,
                         Message = "Không tìm thấy sản phẩm!!!",
-                        Data  = null
-                    });
-                }
+                        Data = null
+                    };
+                    return NotFound(response);
+                }   
 
-                return Ok(new ResponseMessageModel<Products>
+                var newss = new ResponseMessageModel<Products>
                 {
                     StatusCode = 200,
                     Message = "Xóa sản phẩm thành công!!!",
                     Data = null
-                });
+                };
+                return Ok(newss);
             }
             catch (Exception)
             {

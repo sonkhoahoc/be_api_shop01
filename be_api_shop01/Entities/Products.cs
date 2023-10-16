@@ -11,8 +11,7 @@ namespace be_api_shop01.Entities
         public int views_count { get; set; }
         public int stock_quantity { get; set; }
         public int sold_quantity { get; set; }
+        public string description { get; set; }
         public string avatar { get; set; }
-        [NotMapped]
-        public List<Product_File> files { get; set; }
     } 
 }

@@ -13,7 +13,7 @@ namespace be_api_shop01.Repository
             _context = context;
         }
 
-        public async Task<Product_File> CreateFile(long proId, Product_File file)
+        public async Task<Product_File> CreateFile( Product_File file)
         {
             file.dateAdded = DateTime.UtcNow;
             file.dateUpdated = DateTime.UtcNow;
@@ -65,6 +65,7 @@ namespace be_api_shop01.Repository
 
             pro_file.file = file.file;
             pro_file.alt_description = file.alt_description;
+            _context.Entry(pro_file).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return pro_file;

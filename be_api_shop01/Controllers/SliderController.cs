@@ -84,13 +84,13 @@ namespace be_api_shop01.Controllers
             try
             {
                 var sliders = await _repository.AddSlider(slider);
-                var response = new ResponseMessageModel<long>
+
+                return Ok(new ResponseMessageModel<Slider>
                 {
-                    StatusCode = 201,
-                    Message = "Thêm slider thành công",
+                    StatusCode = 200,
+                    Message = "Thanh cong",
                     Data = sliders
-                };
-                return CreatedAtAction(nameof(GetSliderById), new {id = slider}, response);
+                });
             }   
             catch (Exception)
             {
@@ -108,14 +108,24 @@ namespace be_api_shop01.Controllers
         {
             try
             {
-                await _repository.UpdateSlider(id, slider);
-                var response = new ResponseMessageModel<string>
+                var sliders = await _repository.UpdateSlider(id, slider);
+                
+                if(sliders == null)
+                {
+                    return Ok(new ResponseMessageModel<Slider>
+                    {
+                        StatusCode = 404,
+                        Message = "không thây",
+                        Data = null,
+                    });
+                }
+
+                return Ok(new ResponseMessageModel<Slider>
                 {
                     StatusCode = 200,
-                    Message = "Sửa loại slider thành công!!!",
-                    Data = null
-                };
-                return Ok(response);
+                    Message = "Thành cong",
+                    Data = sliders
+                });
             }
             catch (Exception)
             {
@@ -134,18 +144,18 @@ namespace be_api_shop01.Controllers
             try
             {
                 var is_delete = await _repository.DeleteSlider(id);
-                if (is_delete)
+                if (!is_delete)
                 {
-                    var response = new ResponseMessageModel<string>
+                    var response = new ResponseMessageModel<Slider>
                     {
                         StatusCode = 404,
                         Message = "Không tìm thấy slider!!!",
                         Data = null
                     };
-                    return NotFound(response);
+                    return Ok(response);
                 }
 
-                var responses = new ResponseMessageModel<IResponseData>
+                var responses = new ResponseMessageModel<Slider>
                 {
                     StatusCode = 200,
                     Message = "Xoá thành công slider",
