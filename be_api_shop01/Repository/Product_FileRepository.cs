@@ -63,6 +63,7 @@ namespace be_api_shop01.Repository
                 return null;
             }
 
+            pro_file.product_id = file.product_id;
             pro_file.file = file.file;
             pro_file.alt_description = file.alt_description;
             _context.Entry(pro_file).State = EntityState.Modified;

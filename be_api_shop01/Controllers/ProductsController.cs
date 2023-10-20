@@ -1,4 +1,4 @@
-﻿    using be_api_shop01.Entities;
+﻿using be_api_shop01.Entities;
 using be_api_shop01.IRepository;
 using be_api_shop01.Models.Common;
 using Microsoft.AspNetCore.Http;
@@ -116,12 +116,12 @@ namespace be_api_shop01.Controllers
             }
             catch (Exception) 
             {
-                return Ok(new ResponseMessageModel<string>
-                {
-                    StatusCode = 500,
-                    Message = "Có lỗi trong quá trình xử lý!!!",
-                    Data = null
-                });
+                    return Ok(new ResponseMessageModel<string>
+                    {
+                        StatusCode = 500,
+                        Message = "Có lỗi trong quá trình xử lý!!!",
+                        Data = null
+                    });
             }
         }
 

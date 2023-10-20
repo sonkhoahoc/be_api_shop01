@@ -103,6 +103,31 @@ namespace be_api_shop01.Controllers
             }
         }
 
+        [HttpGet("news-count")]
+        public async Task<ActionResult> GetTotalNews()
+        {
+            try
+            {
+                var n = await _reponsitory.GetTotalNews();
+
+                return Ok(new ResponseMessageModel<long>
+                {
+                    StatusCode = 200,
+                    Message = "Thành công!!!",
+                    Data = n
+                });
+            }
+            catch(Exception)
+            {
+                return Ok(new ResponseMessageModel<IResponseData>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Data = null
+                });
+            }
+        }
+
         [HttpPost("news-create")]
         public async Task<IActionResult> AddNews([FromBody] News news)
         {

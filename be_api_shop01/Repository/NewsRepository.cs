@@ -52,6 +52,11 @@ namespace be_api_shop01.Repository
             return await _context.News.FirstOrDefaultAsync(n => n.id == id);
         }
 
+        public async Task<long> GetTotalNews()
+        {
+            return await _context.News.CountAsync();
+        }
+
         public async Task UpdateNews(long id, News news)
         {
             var update_news = await _context.News.FirstOrDefaultAsync(n => n.id == id);
