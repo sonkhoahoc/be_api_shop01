@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using be_api_shop01.Entities;
 
@@ -11,9 +12,10 @@ using be_api_shop01.Entities;
 namespace be_api_shop01.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231021233155_DbInit19")]
+    partial class DbInit19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,6 +130,8 @@ namespace be_api_shop01.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("id");
+
+                    b.HasIndex("parent_category_id");
 
                     b.ToTable("category_product");
                 });
@@ -610,6 +614,20 @@ namespace be_api_shop01.Migrations
                     b.HasKey("id");
 
                     b.ToTable("voucher");
+                });
+
+            modelBuilder.Entity("be_api_shop01.Entities.Category_Product", b =>
+                {
+                    b.HasOne("be_api_shop01.Entities.Category_Product", "parent_category")
+                        .WithMany("child_categories")
+                        .HasForeignKey("parent_category_id");
+
+                    b.Navigation("parent_category");
+                });
+
+            modelBuilder.Entity("be_api_shop01.Entities.Category_Product", b =>
+                {
+                    b.Navigation("child_categories");
                 });
 #pragma warning restore 612, 618
         }

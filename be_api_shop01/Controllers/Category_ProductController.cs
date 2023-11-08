@@ -17,104 +17,67 @@ namespace be_api_shop01.Controllers
         }
 
         [HttpGet("category-product-list")]
-        public async Task<IActionResult> GetAllCategory_Product()
+        public async Task<IActionResult> GetListCategory()
         {
             try
             {
-                var category_product = await _repository.GetAllCategory_Product();
-                var response = new ResponseMessageModel<List<Category_Product>>
+                var categories = await _repository.GetAllCategories();
+                return Ok(new ResponseMessageModel<List<Category_Product>>
                 {
                     StatusCode = 200,
-                    Message = "Hiện thị danh sách loại sản phẩm thành công!!!",
-                    Data = category_product
-                };
-                return Ok(response);
+                    Message = "Lấy danh sách danh mục thành công!!!",
+                    Data = categories
+                });
             }
             catch (Exception)
             {
-                return Ok(new ResponseMessageModel<IResponseData>
+                return Ok(new ResponseMessageModel<string>
                 {
                     StatusCode = 500,
-                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
                     Data = null
                 });
             }
         }
 
-        [HttpGet("category-product/{id}")]
-        public async Task<IActionResult> GetCategory_ProductById(long id)
+        [HttpGet("category-product-child/{parentId}")]
+        public async Task<IActionResult> GetChildCategories(long parentId)
         {
             try
             {
-                var category_product = await _repository.GetCategory_ProductById(id);
-                if (category_product == null)
-                {
-                    var response = new ResponseMessageModel<string>
-                    {
-                        StatusCode = 404,
-                        Message = "Không tìm thấy loại sản phẩm!!!",
-                        Data = null
-                    };
-                    return NotFound(response);
-                }
+                var child = await _repository.GetChildCategories(parentId);
 
-                var responses = new ResponseMessageModel<Category_Product>
+                return Ok(new ResponseMessageModel<List<Category_Product>>
                 {
                     StatusCode = 200,
-                    Message = "Hiển thị loại sản phẩm theo id thành công!!!",
-                    Data = category_product
-                };
-                return Ok(responses);
+                    Message = "Lấy danh sách danh mục con thành công!!!",
+                    Data = child
+                });
             }
             catch (Exception)
             {
-                return Ok(new ResponseMessageModel<IResponseData>
+                return Ok(new ResponseMessageModel<string>
                 {
                     StatusCode = 500,
-                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
                     Data = null
                 });
             }
         }
 
-        [HttpPost("category-product-create")]
-        public async Task<IActionResult> AddCategory_Product([FromBody] Category_Product category)
+        [HttpGet("category/{id}")]
+        public async Task<IActionResult> GetCategoryById(long id)
         {
             try
             {
-                var category_product = await _repository.AddCategory_Product(category);
-                return Ok(new ResponseMessageModel<Category_Product>
-                {
-                    StatusCode = 200,
-                    Message = "Thành công",
-                    Data = category_product
-                });
-                
-            }
-            catch (Exception)
-            {
-                return Ok(new ResponseMessageModel<IResponseData>
-                {
-                    StatusCode = 500,
-                    Message = "Có lỗi trong quá trình xử lý!!!",
-                    Data = null
-                });
-            }
-        }
+                var category = await _repository.GetCategoryById(id);
 
-        [HttpPut("category-product-put/{id}")]
-        public async Task<IActionResult> UpdatetCategory_Product(long id,[FromBody] Category_Product category)
-        {
-            try
-            {
-                var categories = await _repository.UpdateCategory_Product(id, category);
-                
-                if(categories == null)
+                if (category == null)
                 {
                     return Ok(new ResponseMessageModel<Category_Product>
                     {
                         StatusCode = 404,
-                        Message = "Không thấy",
+                        Message = "Không tìm thấy danh mục!!!",
                         Data = null
                     });
                 }
@@ -122,52 +85,110 @@ namespace be_api_shop01.Controllers
                 return Ok(new ResponseMessageModel<Category_Product>
                 {
                     StatusCode = 200,
-                    Message = "Thành công ",
-                    Data = categories
+                    Message = "Lấy danh mục theo ID thành công!!!",
+                    Data = category
                 });
             }
             catch (Exception)
             {
-                return Ok(new ResponseMessageModel<IResponseData>
+                return Ok(new ResponseMessageModel<string>
                 {
                     StatusCode = 500,
-                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpPost("category-product-create")]
+        public async Task<IActionResult> CreateCategory([FromBody] Category_Product category)
+        {
+            try
+            {
+                var newCategory = await _repository.AddCategory(category);
+                return Ok(new ResponseMessageModel<Category_Product>
+                {
+                    StatusCode = 200,
+                    Message = "Thêm danh mục thành công!!!",
+                    Data = newCategory
+                });
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseMessageModel<string>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpPut("category-product-put/{id}")]
+        public async Task<IActionResult> UpdateCategory(long id, [FromBody] Category_Product category)
+        {
+            try
+            {
+                var updatedCategory = await _repository.UpdateCategory(id, category);
+
+                if (updatedCategory == null)
+                {
+                    return Ok(new ResponseMessageModel<Category_Product>
+                    {
+                        StatusCode = 404,
+                        Message = "Không tìm thấy danh mục!!!",
+                        Data = null
+                    });
+                }
+
+                return Ok(new ResponseMessageModel<Category_Product>
+                {
+                    StatusCode = 200,
+                    Message = "Sửa danh mục thành công!!!",
+                    Data = updatedCategory
+                });
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseMessageModel<string>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
                     Data = null
                 });
             }
         }
 
         [HttpDelete("category-product-delete/{id}")]
-        public async Task<IActionResult> DeleteCategory_Product(long id)
+        public async Task<IActionResult> DeleteCategory(long id)
         {
             try
             {
-                var is_delete = await _repository.DeleteCategory_Product(id);
-                if (!is_delete)
+                var success = await _repository.DeleteCategory(id);
+
+                if (!success)
                 {
-                    var response = new ResponseMessageModel<string>
+                    return Ok(new ResponseMessageModel<Category_Product>
                     {
                         StatusCode = 404,
-                        Message = "Không tìm thấy sản phẩm tức!!!",
+                        Message = "Không tìm thấy danh mục!!!",
                         Data = null
-                    };
-                    return NotFound(response);
+                    });
                 }
 
-                var responses = new ResponseMessageModel<string>
+                return Ok(new ResponseMessageModel<Category_Product>
                 {
                     StatusCode = 200,
-                    Message = "Xoá thành công loại sản phẩm",
+                    Message = "Xóa danh mục thành công!!!",
                     Data = null
-                };
-                return Ok(responses);
+                });
             }
             catch (Exception)
             {
-                return Ok(new ResponseMessageModel<IResponseData>
+                return Ok(new ResponseMessageModel<string>
                 {
                     StatusCode = 500,
-                    Message = "Có lỗi trong quá trình xử lý!!!",
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
                     Data = null
                 });
             }

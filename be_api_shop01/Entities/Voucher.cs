@@ -9,7 +9,7 @@ namespace be_api_shop01.Entities
         public string code { get; set; }
         public bool is_apply_count { get; set; }
         public int max_apply_count { get; set; }
-        public double discount_cash { get; set; }
+        public int discount_cash { get; set; }
         public string type { get; set; } = "";
     }
 }

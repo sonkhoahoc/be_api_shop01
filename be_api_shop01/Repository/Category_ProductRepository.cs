@@ -15,50 +15,62 @@ namespace be_api_shop01.Repository
             _context = context;
         }
 
-        public async Task<Category_Product> AddCategory_Product(Category_Product category)
+        public async Task<Category_Product> AddCategory(Category_Product category)
         {
             category.dateAdded = DateTime.Now;
             category.dateUpdated = DateTime.Now;
 
             _context.Category_Product.Add(category);
             await _context.SaveChangesAsync();
+
             return category;
         }
 
-        public async Task<bool> DeleteCategory_Product(long id)
+        public async Task<bool> DeleteCategory(long Id)
         {
-            var category_product = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
-            if (category_product != null)
+            var cate = await _context.Category_Product.FirstOrDefaultAsync(c => c.id == Id);
+
+            if (cate == null)
             {
-                _context.Category_Product.Remove(category_product);
-                await _context.SaveChangesAsync();
-                return true;
+                return false;
             }
-            return  false;
+
+            _context.Category_Product.Remove(cate);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task<List<Category_Product>> GetAllCategory_Product()
+        public async Task<List<Category_Product>> GetAllCategories()
         {
-            return await _context.Category_Product.OrderByDescending(ct => ct.dateAdded).ToListAsync();
+            return await _context.Category_Product.OrderByDescending(c => c.dateAdded).ToListAsync();
         }
 
-        public Task<Category_Product> GetCategory_ProductById(long id)
+        public async Task<Category_Product> GetCategoryById(long Id)
         {
-            return _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
+            return await _context.Category_Product.FirstOrDefaultAsync(c => c.id == Id);
         }
 
-        public async Task<Category_Product> UpdateCategory_Product(long id, Category_Product category)
+        public async Task<List<Category_Product>> GetChildCategories(long parentCategoryId)
         {
-            var category_product = await _context.Category_Product.FirstOrDefaultAsync(ct => ct.id == id);
-            if(category_product == null)
+            return await _context.Category_Product.Where(c => c.parent_category_id == parentCategoryId).ToListAsync();
+        }
+
+        public async Task<Category_Product> UpdateCategory(long id, Category_Product category)
+        {
+            var cate = await _context.Category_Product.FirstOrDefaultAsync(c => c.id == id);
+
+            if(cate == null)
             {
                 return null;
             }
-            category_product.name  = category.name;
-            _context.Entry(category_product).State = EntityState.Modified;
+
+            cate.name = category.name;
+            cate.parent_category_id = category.parent_category_id;
+            _context.Entry(cate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return category_product;
+            return cate;
         }
     }
 }

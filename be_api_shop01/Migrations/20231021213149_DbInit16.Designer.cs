@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using be_api_shop01.Entities;
 
@@ -11,9 +12,10 @@ using be_api_shop01.Entities;
 namespace be_api_shop01.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231021213149_DbInit16")]
+    partial class DbInit16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,6 +107,9 @@ namespace be_api_shop01.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"), 1L, 1);
 
+                    b.Property<long?>("Category_Productid")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
@@ -128,6 +133,8 @@ namespace be_api_shop01.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Category_Productid");
 
                     b.ToTable("category_product");
                 });
@@ -610,6 +617,18 @@ namespace be_api_shop01.Migrations
                     b.HasKey("id");
 
                     b.ToTable("voucher");
+                });
+
+            modelBuilder.Entity("be_api_shop01.Entities.Category_Product", b =>
+                {
+                    b.HasOne("be_api_shop01.Entities.Category_Product", null)
+                        .WithMany("sub_categories")
+                        .HasForeignKey("Category_Productid");
+                });
+
+            modelBuilder.Entity("be_api_shop01.Entities.Category_Product", b =>
+                {
+                    b.Navigation("sub_categories");
                 });
 #pragma warning restore 612, 618
         }
