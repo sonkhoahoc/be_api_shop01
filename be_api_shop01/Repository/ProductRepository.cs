@@ -58,6 +58,11 @@ namespace be_api_shop01.Repository
             return await _context.Products.Where(p => p.category_id == cate_id).OrderByDescending(p => p.dateAdded).ToListAsync();
         }
 
+        public async Task<List<Products>> ProductList_Limit(long limit)
+        {
+            return await _context.Products.OrderBy(p => Guid.NewGuid()).Take((int)limit).ToListAsync();
+        }
+
         public async Task<Products> UpdateProduct(long id, Products product)
         {
             var id_pro = await _context.Products.FindAsync(id);

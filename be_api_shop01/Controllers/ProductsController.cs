@@ -41,6 +41,30 @@ namespace be_api_shop01.Controllers
             }
         }
 
+        [HttpGet("product-list-limit")]
+        public async Task<IActionResult> GetListProduct_Limit([FromQuery]long limit)
+        {
+            try
+            {
+                var pro = await _proReponsitory.ProductList_Limit(limit);
+                return Ok(new ResponseMessageModel<List<Products>>
+                {
+                    StatusCode = 200,
+                    Message = "Gọi danh sách sản phẩm thành công!!!",
+                    Data = pro
+                });
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseMessageModel<string>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
+                    Data = null
+                });
+            }
+        }
+
         [HttpGet("product/category/{cate_id}")]
         public async Task<ActionResult> GetListSizeByProId(long cate_id)
         {
