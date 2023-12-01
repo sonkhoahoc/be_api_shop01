@@ -38,6 +38,13 @@ namespace be_api_shop01.Repository
             return true;
         }
 
+        public async Task<List<Products>> GetInterestingProducts()
+        {
+            var pro = await _context.Products.Where(p => p.views_count > 5).OrderByDescending(p => p.dateAdded).ToListAsync();
+
+            return pro;
+        }
+
         public async Task<long> GetTotalProduct()
         {
             return await _context.Products.CountAsync();
@@ -56,6 +63,21 @@ namespace be_api_shop01.Repository
         public async Task<List<Products>> ProductListByCate_Id(long cate_id)
         {
             return await _context.Products.Where(p => p.category_id == cate_id).OrderByDescending(p => p.dateAdded).ToListAsync();
+        }
+
+        public async Task<List<Products>> ProductListBySize(string size)
+        {
+            var pro = await _context.Products.OrderByDescending(p => p.dateAdded)
+                .Join(
+                    _context.Size,
+                    p => p.id,
+                    s => s.product_id,
+                    (p, s) => new { Products = p, Size = s }
+                )
+                .Where(p => p.Size.name == size)
+                .Select(p => p.Products)
+                .ToListAsync();
+            return pro;
         }
 
         public async Task<List<Products>> ProductList_Limit(long limit)

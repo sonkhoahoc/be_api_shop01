@@ -65,6 +65,41 @@ namespace be_api_shop01.Controllers
             }
         }
 
+        [HttpGet("product-list-size")]
+        public async Task<IActionResult> GetProductListBySize(string size)
+        {
+            try
+            {
+                var pro = await _proReponsitory.ProductListBySize(size);
+                
+                if(pro == null || pro.Count == 0)
+                {
+                    return Ok(new ResponseMessageModel<string>
+                    {
+                        StatusCode = 404,
+                        Message = "Không thấy",
+                        Data = null
+                    });
+                }
+
+                return Ok(new ResponseMessageModel<List<Products>>
+                {
+                    StatusCode = 200,
+                    Message = "Thành công",
+                    Data = pro
+                });
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseMessageModel<string>
+                {
+                    StatusCode = 500,
+                    Message = "Có lỗi trong quá trình xử lý vui lòng thử lại!!!",
+                    Data = null
+                });
+            }
+        }
+
         [HttpGet("product/category/{cate_id}")]
         public async Task<ActionResult> GetListSizeByProId(long cate_id)
         {
